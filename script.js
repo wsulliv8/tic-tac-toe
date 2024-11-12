@@ -16,8 +16,7 @@ const gameBoard = (function () {
   const placeToken = (row, column, player) => {
     if (board[row][column].getValue() === 0)
       board[row][column].addToken(player.getToken());
-    let win = checkWin(row, column, player);
-    return win;
+    return checkWin(row, column, player);
   }
 
   const checkWin = (row, column, player) => {
@@ -83,18 +82,41 @@ const gameController = (function () {
     if (gameBoard.placeToken(row, column, activePlayer)) {playerWin();}
 
     switchActivePlayer();
-    // printNewRound();
+    printNewRound();
   } 
 
-  const playerWin = () => {console.log(`${activePlayer.playerName} wins!`)};
+  const playerWin = () => {console.log(`${activePlayer.getName()} wins!`)};
 
   return { playRound, getActivePlayer, getBoard: gameBoard.getBoard };
 
 })();
 
-gameController.playRound(0,1);
-gameController.playRound(0,0);
-gameController.playRound(1,1);
-gameController.playRound(0,0);
-gameController.playRound(2,1);
-gameController.playRound(0,0);
+function ScreenController() {
+  const winText = document.querySelector('h1');
+  const dialog = document.querySelector('.dialog');
+  const squares = document.querySelectorAll('.square');
+  squares.forEach(button => button.addEventListener('click', clickHandle));
+
+
+  const updateScreen = () => {
+    const board = gameBoard.getBoard();
+    const activePlayer = gameController.getActivePlayer();
+
+    dialog.textContent = `${activePlayer.getName()}'s turn...`;
+
+    squares.forEach(square => {
+      square.textContent = board[square.dataset.row][square.dataset.column].getValue();
+    });
+  }
+
+  function clickHandle(e) {
+    if (e.target.textContent !== '0') {
+      dialog.textContent = 'Please select a different square.';
+    } else {
+      gameController.playRound(e.target.dataset.row, e.target.dataset.column);
+      updateScreen();
+    }
+  }
+}
+
+ScreenController();
