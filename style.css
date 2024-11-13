@@ -35,33 +35,109 @@ h1, h2, h3, h4, h5, h6 {
   isolation: isolate;
 }
 
+:root {
+  --color-wood: #645555;
+  --color-cross: #2772db;
+  --color-circle: #F2003C;
+  --pattern-wood: url(./img/wood.png);
+}
+
 body {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   height: 100vh;
+  gap: 2rem;
+}
+
+.winBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 6rem;
 }
 
 h1 {
   height: 4rem;
 }
 
+.playAgain {
+  background-color: gray;
+  color: white;
+  width: 7rem;
+  height: 1.5rem;
+}
+
 h3 {
   height: 2rem;
+}
+
+.play-space {
+  display: flex;
+  justify-content: center;
+  height: 75vh;
+  width: 100vw;
+}
+
+.circles, .crosses {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.crosses {
+  flex-wrap: wrap-reverse;
 }
 
 .board {
   display: grid;
   grid-template: repeat(3, 1fr) / repeat(3, 1fr);
-  gap: 1rem;
-  height: 50vh;
-  width: 50vh;
+  gap: 1.5rem;
+  height: 75vh;
+  width: 75vh;
+  background: var(--pattern-wood), var(--color-wood);
+  filter: contrast(1.5);
+  padding: 1.5rem;
+  border-radius: 20px;
 }
 
 .square {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: gray;
   color: white;
   padding: 0;
   border: 0;
+  background: var(--pattern-wood), var(--color-wood);
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset; 
+  border-radius: 8px;
+  color: #B90504;
+}
+
+.shape-wrapper {
+  height: calc(25vh - 3rem);
+  width: calc(25vh - 3rem);
+  filter: drop-shadow(-1px 6px 3px rgba(50, 50, 0, 0.5));
+} 
+
+.shape {
+  display: inline-block;
+  height: 100%;
+  width: 100%;
+  clip-path: polygon(20% 0%, 0% 20%, 30% 50%, 0% 80%, 20% 100%, 50% 70%, 80% 100%, 100% 80%, 70% 50%, 100% 20%, 80% 0%, 50% 30%);
+}
+
+.shape.cross {
+  background: var(--pattern-wood), var(--color-cross);
+  clip-path: polygon(20% 0%, 0% 20%, 30% 50%, 0% 80%, 20% 100%, 50% 70%, 80% 100%, 100% 80%, 70% 50%, 100% 20%, 80% 0%, 50% 30%);
+} 
+
+.shape.circle {
+  clip-path: circle(50%);
+  background: var(--pattern-wood), var(--color-circle);
+  mask: radial-gradient(circle 55px, #0000 98%, #fff);
 }

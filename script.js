@@ -79,7 +79,9 @@ const gameController = (function () {
   }
 
   const playRound = (row, column) => {
-    if (gameBoard.placeToken(row, column, activePlayer)) {playerWin();}
+    if (gameBoard.placeToken(row, column, activePlayer)) {
+      return 1;
+    }
 
     switchActivePlayer();
     printNewRound();
@@ -113,8 +115,9 @@ function ScreenController() {
     if (e.target.textContent !== '0') {
       dialog.textContent = 'Please select a different square.';
     } else {
-      gameController.playRound(e.target.dataset.row, e.target.dataset.column);
-      updateScreen();
+      if (gameController.playRound(e.target.dataset.row, e.target.dataset.column)) {
+        winText.textContent = `${gameController.getActivePlayer().getName()} Wins!`;
+      } else { updateScreen() }
     }
   }
 }
