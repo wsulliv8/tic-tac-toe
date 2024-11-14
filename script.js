@@ -96,28 +96,63 @@ const gameController = (function () {
 function ScreenController() {
   const winText = document.querySelector('h1');
   const dialog = document.querySelector('.dialog');
-  const squares = document.querySelectorAll('.square');
+  const crosses = document.querySelector('.crosses');
+  const circles = document.querySelector('.circles');
+  let squares = document.querySelectorAll('.square');
   squares.forEach(button => button.addEventListener('click', clickHandle));
+  squares = convertTwoDim(squares);
+  const tokenData = {
+    0 : '',
+    1 : {
+          type : crosses,
+          html : 
+                `   
+                    <span class="shape-wrapper">
+                      <span class="shape cross"></span>
+                    </span>
+                `,
+        }, 
+    2 : {
+          type : circles,
+          html : 
+                `   
+                    <span class="shape-wrapper">
+                      <span class="shape circle"></span>
+                    </span>
+                `,
+        },
+  }
 
+  function convertTwoDim(oneDim) {
+    const twoDim = [];
+    oneDim = Array.from(oneDim);
+    for (let i = 0; i < oneDim.length; i += 3) {
+      twoDim.push(oneDim.slice(i, i + 3));
+    }
+    return twoDim;
+  }
 
-  const updateScreen = () => {
+  const updateScreen = (row, column) => {
     const board = gameBoard.getBoard();
+    const cellValue = board[row][column].getValue();
     const activePlayer = gameController.getActivePlayer();
 
     dialog.textContent = `${activePlayer.getName()}'s turn...`;
 
-    squares.forEach(square => {
-      square.textContent = board[square.dataset.row][square.dataset.column].getValue();
-    });
+    squares[row][column].innerHTML = tokenData[cellValue].html;
+
+    tokenData[cellValue].type.lastElementChild.remove();
+
   }
 
   function clickHandle(e) {
-    if (e.target.textContent !== '0') {
+    if (e.target.hasChildNodes()) {
       dialog.textContent = 'Please select a different square.';
     } else {
       if (gameController.playRound(e.target.dataset.row, e.target.dataset.column)) {
+        updateScreen(e.target.dataset.row, e.target.dataset.column);
         winText.textContent = `${gameController.getActivePlayer().getName()} Wins!`;
-      } else { updateScreen() }
+      } else { updateScreen(e.target.dataset.row, e.target.dataset.column) }
     }
   }
 }

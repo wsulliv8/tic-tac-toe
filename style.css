@@ -86,6 +86,7 @@ h3 {
   flex-direction: column;
   flex-wrap: wrap;
   justify-content: space-evenly;
+  width: calc(25vh - 3rem);
 }
 
 .crosses {
@@ -93,6 +94,7 @@ h3 {
 }
 
 .board {
+  flex: none;
   display: grid;
   grid-template: repeat(3, 1fr) / repeat(3, 1fr);
   gap: 1.5rem;
