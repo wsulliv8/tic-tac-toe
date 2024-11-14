@@ -39,6 +39,7 @@ h1, h2, h3, h4, h5, h6 {
   --color-wood: #645555;
   --color-cross: #2772db;
   --color-circle: #F2003C;
+  --color-green: #018749;
   --pattern-wood: url(./img/wood.png);
 }
 
@@ -64,10 +65,23 @@ h1 {
 }
 
 .playAgain {
-  background-color: gray;
+  background-color: var(--color-green);
   color: white;
-  width: 7rem;
-  height: 1.5rem;
+  font-size: 1.5rem;
+  width: 9rem;
+  height: 3rem;
+  border-radius: 14px;
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  visibility: hidden;
+}
+
+.playAgain:hover {
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.playAgain:active {
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px inset;
 }
 
 h3 {
@@ -86,7 +100,7 @@ h3 {
   flex-direction: column;
   flex-wrap: wrap;
   justify-content: space-evenly;
-  width: calc(25vh - 3rem);
+  width: calc(2*calc(25vh - 3rem));
 }
 
 .crosses {
@@ -94,12 +108,11 @@ h3 {
 }
 
 .board {
-  flex: none;
   display: grid;
   grid-template: repeat(3, 1fr) / repeat(3, 1fr);
   gap: 1.5rem;
   height: 75vh;
-  width: 75vh;
+  min-width: 75vh;
   background: var(--pattern-wood), var(--color-wood);
   filter: contrast(1.5);
   padding: 1.5rem;
